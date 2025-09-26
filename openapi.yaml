@@ -1,0 +1,72 @@
+openapi: 3.0.0
+info:
+  title: custom_hr_import_api - Invoice API
+  version: "1.0.0"
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+paths:
+  /api/v1/invoices/create:
+    post:
+      security:
+        - ApiKeyAuth: []
+      summary: Create invoices (batch)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  partner_id: { type: integer }
+                  invoice_date: { type: string, format: date }
+                  move_type: { type: string }
+                  lines:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        product_id: { type: integer }
+                        quantity: { type: number }
+                        price_unit: { type: number }
+      responses:
+        '200':
+          description: OK
+  /api/v1/invoices/register_payment:
+    post:
+      security:
+        - ApiKeyAuth: []
+      summary: Register payments (batch)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  invoice_id: { type: integer }
+                  amount: { type: number }
+                  journal_id: { type: integer }
+      responses:
+        '200':
+          description: OK
+  /api/v1/invoices/list:
+    get:
+      security:
+        - ApiKeyAuth: []
+      summary: List invoices
+      parameters:
+        - in: query
+          name: partner_id
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK

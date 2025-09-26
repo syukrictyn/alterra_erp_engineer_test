@@ -1,0 +1,33 @@
+<odoo>
+  <record id="view_employee_import_form" model="ir.ui.view">
+    <field name="name">employee.import.form</field>
+    <field name="model">employee.import.job</field>
+    <field name="arch" type="xml">
+      <form string="Employee Import">
+        <sheet>
+          <group>
+            <field name="file" filename="file_name"/>
+            <field name="file_name"/>
+            <field name="state" readonly="1"/>
+            <field name="processed" readonly="1"/>
+            <field name="total" readonly="1"/>
+            <field name="errors" readonly="1" widget="text" />
+          </group>
+          <footer>
+            <button string="Start Import" type="object" name="action_start" class="btn-primary"/>
+            <button string="Close" class="btn-secondary" special="cancel"/>
+          </footer>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_employee_import" model="ir.actions.act_window">
+    <field name="name">Employee Import Jobs</field>
+    <field name="res_model">employee.import.job</field>
+    <field name="view_mode">form</field>
+  </record>
+
+  <menuitem id="menu_hr_import" name="HR Import" parent="hr.menu_hr_root"/>
+  <menuitem id="menu_employee_import_jobs" name="Employee Import Jobs" parent="menu_hr_import" action="action_employee_import"/>
+</odoo>
